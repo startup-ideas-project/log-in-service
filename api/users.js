@@ -15,8 +15,8 @@ const moment = require('moment')
     user.Id = uuidv4();
     user.created = moment().format()
     // need validation  before submitting
-    const count = await USER_DAO.checkUserEmail(user.email).then(data => data.rows[0].count)
-    if(count > 1){
+    const registeredUser = await USER_DAO.getUser(user.email).then(data => data.rows)
+    if(registeredUser.length > 1){
         res.send('Email already existed')
         return
     }
@@ -68,16 +68,11 @@ const getUserById = (userId) => {
  * password String The password for login in clear text
  * returns String
  **/
-const loginUser = (username,password)  => {
-//   return new Promise((resolve, reject) {
-//     var examples = {};
-//     examples['application/json'] = "";
-//     if (Object.keys(examples).length > 0) {
-//       resolve(examples[Object.keys(examples)[0]]);
-//     } else {
-//       resolve();
-//     }
-//   });
+const loginUser = async (req,res)  => {
+    const email = req.query.email
+    const password = req.query.password
+    const count = await USER_DAO.matchUser(email,password).then(data => data.rows)
+    count.length > 1 ? res.sendStatus(200) : res.sendStatus(404)
 }
 
 /**
