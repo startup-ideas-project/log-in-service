@@ -3,7 +3,6 @@ info:
   description: "A collections of API provided by login services."
   version: "1.0.0"
   title: "Swagger Login Service"
-host: "petstore.swagger.io"
 basePath: "/api/login"
 
 schemes:
@@ -12,8 +11,6 @@ schemes:
 paths:
   /user:
     post:
-      tags:
-      - "pet"
       summary: "Add a new user to the store"
       description: ""
       operationId: "addUser"
@@ -24,17 +21,12 @@ paths:
       parameters:
       - in: "body"
         name: "body"
-        description: "Pet object that needs to be added to the store"
         required: true
         schema:
           $ref: "#/definitions/User"
       responses:
         "405":
           description: "Invalid input"
-      security:
-      - petstore_auth:
-        - "write:pets"
-        - "read:pets"
   /user/{userId}:
     get:
       summary: "Find user by ID"

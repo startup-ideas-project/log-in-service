@@ -10,7 +10,7 @@ const moment = require('moment')
  * no response value expected for this operation
  **/
  const addUser = async (req, res) => {
-    const user = req.body
+    const user = req.body // encrypted body within the DB
     //password should be encrypted before sending to the wire. 
     user.Id = uuidv4();
     user.created = moment().format()
@@ -69,10 +69,10 @@ const getUserById = (userId) => {
  * returns String
  **/
 const loginUser = async (req,res)  => {
-    const email = req.query.email
-    const password = req.query.password
+    const email = req.body.email
+    const password = req.body.password
     const count = await USER_DAO.matchUser(email,password).then(data => data.rows)
-    count.length > 1 ? res.sendStatus(200) : res.sendStatus(404)
+    count.length > 0 ? res.sendStatus(200) : res.sendStatus(500)
 }
 
 /**
