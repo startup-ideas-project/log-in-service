@@ -11,7 +11,6 @@ const moment = require('moment')
  **/
  const addUser = async (req, res) => {
     const user = req.body.userInfo // encrypted body within the DB
-    console.log(user)
     //password should be encrypted before sending to the wire. 
     user.Id = uuidv4();
     user.created = moment().format()
