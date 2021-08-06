@@ -2,6 +2,12 @@
 const USER_DAO = require('../dao/user');
 const { v4: uuidv4 } = require('uuid');
 const moment = require('moment')
+const jwt = require('jsonwebtoken')
+
+// local imports
+const {configs} = require('../configs/app-config');
+
+
 /**
  * Add a new user to the store
  * 
@@ -43,20 +49,8 @@ const deleteUser = (userId) => {
  * userId UUID ID of a user to return a who user
  * returns User
  **/
-const getUserById = (userId) => {
-//   return new Promise((resolve, reject) {
-//     var examples = {};
-//     examples['application/json'] = {
-//   "name" : "Michael Jordan",
-//   "id" : "046b6c7f-0b8a-43b9-b35d-6489e6daee91",
-//   "email" : "email"
-// };
-//     if (Object.keys(examples).length > 0) {
-//       resolve(examples[Object.keys(examples)[0]]);
-//     } else {
-//       resolve();
-//     }
-//   });
+const getUserById = async (req, res) => {
+
 }
 
 
@@ -69,10 +63,20 @@ const getUserById = (userId) => {
  * returns String
  **/
 const loginUser = async (req,res)  => {
-    const email = req.body.email
-    const password = req.body.password
+    const email = req.body.userInfo.email
+    const password = req.body.userInfo.password
     const count = await USER_DAO.matchUser(email,password).then(data => data.rows)
-    count.length > 0 ? res.sendStatus(200) : res.sendStatus(500)
+    const user = {
+      email: count.email,
+      password: count.password
+    }
+    if (count.length === 1){
+      res.send({
+        token: generateToken(user)
+      })
+    } else {
+      res.sendStatus(500)
+    }
 }
 
 /**
@@ -85,6 +89,10 @@ const loginUser = async (req,res)  => {
     // return new Promise((resolve, reject) {
     //   resolve();
     // });
+  }
+
+  const generateToken = (user) => {
+    return jwt.sign({data: user}, configs.jwtSecret, {expiresIn: '24h'})
   }
 
 module.exports = {
