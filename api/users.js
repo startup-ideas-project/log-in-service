@@ -5,7 +5,7 @@ const moment = require('moment')
 const jwt = require('jsonwebtoken')
 
 // local imports
-const {configs} = require('../configs/app-config');
+const {configs} = require('../../configs/app-config');
 
 
 /**
@@ -91,15 +91,20 @@ const loginUser = async (req,res)  => {
     // });
   }
 
-  const generateToken = (user) => {
-    return jwt.sign({data: user}, configs.jwtSecret, {expiresIn: '24h'})
-  }
+const generateToken = (user) => {
+  return jwt.sign({data: user}, configs.jwtSecret, {expiresIn: '24h'})
+}
+
+const authenticate = async (req,res) => {
+  res.sendStatus(200)
+}
 
 module.exports = {
     loginUser,
     logoutUser,
     addUser,
     deleteUser,
-    getUserById
+    getUserById,
+    authenticate
 }
 

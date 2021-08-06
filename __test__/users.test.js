@@ -10,7 +10,7 @@ describe("test end points service", () =>{
     })
     it("health check response 200", (done) => {
         request(server)
-            .get('/health')
+            .get('/user/health')
             .expect(200, done);
     })
 })

@@ -4,8 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test intergration": "jest __test__",
-    "test unit": "jest __unit-test__",
+    "test": "jest __test__",
     "start": "nodemon app.js"
   },
   "author": "",
