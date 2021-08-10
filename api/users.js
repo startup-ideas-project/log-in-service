@@ -91,6 +91,11 @@ const loginUser = async (req,res)  => {
     // });
   }
 
+const getAllUser = async (req, res) => {
+  const emails = await USER_DAO.getAllUser().then(data => data.rows)
+  res.send(JSON.stringify(emails))
+}
+
 const generateToken = (user) => {
   return jwt.sign({data: user}, configs.jwtSecret, {expiresIn: '24h'})
 }
@@ -105,6 +110,7 @@ module.exports = {
     addUser,
     deleteUser,
     getUserById,
-    authenticate
+    authenticate,
+    getAllUser
 }
 

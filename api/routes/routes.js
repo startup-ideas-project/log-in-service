@@ -14,6 +14,7 @@ router.post('/login', USER_API.loginUser)
 
 // authed route
 router.get('/isAuthorized', middleware.verify, USER_API.authenticate)
+router.get('/getAllUser', middleware.verify, USER_API.getAllUser)
 
 module.exports = {
     router

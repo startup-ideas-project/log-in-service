@@ -18,6 +18,12 @@ const matchUser = (email, password) => {
     return executeRequest(pool, text, values)
 }
 
+const getAllUser = () => {
+    const text = 'SELECT email FROM users'
+    const values = [] 
+    return executeRequest(pool, text, values)
+}
+
 const executeRequest = async (pool, text, values) => {
     return pool.query(text, values).then(data => data)
 }
@@ -25,5 +31,6 @@ const executeRequest = async (pool, text, values) => {
 module.exports = {
     getUser,
     createUser,
-    matchUser
+    matchUser,
+    getAllUser
 }
